@@ -7,7 +7,7 @@ import "./interfaces/IDispatcher.sol";
 import "hardhat/console.sol";
 
 
-contract Dispatcher is IDispatcher {
+contract Dispatcher is IDispatcher, isOwnable {
 
     struct Member {
         address member;
@@ -15,22 +15,41 @@ contract Dispatcher is IDispatcher {
     }
 
     struct Event {
-        address owner;
+        string title;
         uint256 id;
+        uint256 timestamp;
+        address[] owners;
         Member[] attendees;
     }
 
+    mapping(uint256 => Event) public idToEvents;
+    mapping(uint256 => Member) public idToMember;
 
     constructor() {
 
     }
 
     function createEvent() public {
-        
+        owners.push(msg.sender);
+        owners.push(owner());
     }
 
-    function updateEvent() public {
-        
+    function updateEventTitle(uint256 _EventId, string memory _newTitle) public {
+        // require owner calls this function
+        // what should be the purpose of this function? update owner?
+        // Event storage swissDAOEvent = idToEvents[_EventId];
+        Event memory swissDAOEventCopy = idToEvents[_EventId];
+        Event swissDAOEvent = Event(
+                                        swissDAOEventCopy.attendees,
+                                        swissDAOEventCopy.id,
+                                        swissDAOEventCopy.owners,
+                                        _newTitle
+                                    );
+        idToEvents[_EventId] = swissDAOEvent;
+    }
+
+    function updateAttendeesOfEvent(uint256 _eventID, address _attendee) public {
+
     }
 
     function updateMembercardFields() public {
