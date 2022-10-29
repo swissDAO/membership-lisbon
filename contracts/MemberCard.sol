@@ -20,7 +20,7 @@ contract MemberCard is
 
     constructor() ERC721("MemberCard", "SWSS") {}
 
-    function mintMemberCard() override {
+    function mintMemberCard() public {
         uint256 newItemId = _tokenIds.current();
 
         _safeMint(msg.sender, newItemId);
@@ -30,15 +30,15 @@ contract MemberCard is
         _tokenIds.increment();
     }
 
-    function updateSkills() {
-      ERC721 _memberCard = ERC721()
+    function updateSkills() public {
+      ERC721 _memberCard = ERC721();
     }
 
-    function earnExperience() {
-      ERC721 _memberCard = ERC721()
+    function earnExperience() public {
+      ERC721 _memberCard = ERC721();
     }
 
     function getTokenURI() private view override returns (string memory) {
-      return "https://gateway.pinata.cloud/ipfs/QmRj91zjBaMjUHtxJnGh32UvM6Wtd4fXNXt8czABLuuCsE"
+      return "https://gateway.pinata.cloud/ipfs/QmRj91zjBaMjUHtxJnGh32UvM6Wtd4fXNXt8czABLuuCsE";
     }
 }
