@@ -20,7 +20,6 @@ contract Dispatcher is IDispatcher, Ownable {
         uint256 timestampOfEvent;
         address owner;
         uint16 maxAttendees;
-        Member[] attendees;
         bytes32[] hashes;
     }
 
@@ -33,6 +32,9 @@ contract Dispatcher is IDispatcher, Ownable {
     mapping(uint256 => Event) public idToEvents;
     mapping(address => Member) public addressToMember;
     mapping(address => bool) public addressIsMember;
+    mapping(uint256 => Member) public eventToAttendees;
+
+    event EventCreated(address indexed _owner, uint256 _id, string _title, uint256 _timestampOfEvent);
 
     constructor() {}
 
@@ -54,13 +56,17 @@ contract Dispatcher is IDispatcher, Ownable {
             timestampOfEvent: _timestampOfEvent,
             owner: msg.sender,
             maxAttendees: _maxAttendees,
-            attendees: emptyAttendees,
+            //attendees: emptyAttendees,
             hashes: _hashes
         });
+
+        //eventToAttendees[swissDAOEvent.id] = emptyAttendees;
 
         // checkIfMemberPartOfEvent: checkIfMemberPartOfEvent[msg.sender] = true
 
         idToEvents[eventCount] = swissDAOEvent;
+
+        emit EventCreated(msg.sender, swissDAOEvent.id, swissDAOEvent.title, swissDAOEvent.timestampOfEvent);
     }
 
     function updateEvent(
@@ -83,9 +89,11 @@ contract Dispatcher is IDispatcher, Ownable {
             timestampOfEvent: _timestampOFEvent,
             owner: swissDAOEventCopy.owner,
             maxAttendees: swissDAOEventCopy.maxAttendees,
-            attendees: swissDAOEventCopy.attendees,
+            //attendees: swissDAOEventCopy.attendees,
             hashes: swissDAOEventCopy.hashes
         });
+
+        //eventToAttendees[swissDAOEventCopy.id] = swissDAOEventCopy.
 
         idToEvents[_EventId] = swissDAOEvent;
     }
