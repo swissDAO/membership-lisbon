@@ -16,6 +16,19 @@ contract MemberCard is
     ERC721Burnable
 {
     using Counters for Counters.Counter;
+
+    enum TIERS {
+        BRONZE,
+        SILVER,
+        GOLD,
+        PLATINUM
+    }
+
+    mapping(address => mapping(uint256 => TIERS)) memberToTokenIdToTIER;
+
+    uint256 experiencePointsOverall;
+    uint256 numberOfAttendedEvents;
+
     Counters.Counter private _tokenIds;
 
     constructor() ERC721("MemberCard", "SWSS") {}
@@ -25,7 +38,9 @@ contract MemberCard is
 
         _safeMint(msg.sender, newItemId);
 
-        _setTokenURI(newItemId, getTokenURI());
+        _setTokenURI(newItemId, tokenURI(newItemId));
+
+        memberToTokenIdToTIER[msg.sender][newItemId] = TIERS.BRONZE;
 
         _tokenIds.increment();
     }
@@ -45,18 +60,33 @@ contract MemberCard is
         ERC721._burn(tokenId);
     }
 
-    function tokenUri() external override(ERC721Enumerable) {}
-
-    function updateSkills() {
-        ERC721 _memberCard = ERC721();
-    }
-
-    function earnExperience() {
-        ERC721 _memberCard = ERC721();
-    }
-
-    function getTokenURI() private view override returns (string memory) {
+    function tokenURI(uint256 tokenId)
+        public
+        view
+        virtual
+        override(ERC721, ERC721URIStorage)
+        returns (string memory)
+    {
+        // super.tokenURI(tokenId);
         return
             "https://gateway.pinata.cloud/ipfs/QmRj91zjBaMjUHtxJnGh32UvM6Wtd4fXNXt8czABLuuCsE";
+    }
+
+    function supportsInterface(bytes4 interfaceId)
+        public
+        view
+        virtual
+        override(ERC721, ERC721Enumerable)
+        returns (bool)
+    {
+        return super.supportsInterface(interfaceId);
+    }
+
+    function updateSkills() public {
+        ERC721 _memberCard = ERC721();
+    }
+
+    function earnExperience() public {
+        ERC721 _memberCard = ERC721();
     }
 }
