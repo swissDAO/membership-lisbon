@@ -1,4 +1,4 @@
-import { Grid, Button, Text } from "@nextui-org/react";
+import { Grid, Button, Text, Progress } from "@nextui-org/react";
 import Spline from "@splinetool/react-spline";
 import { useAccount } from "wagmi";
 
@@ -18,6 +18,12 @@ export const Profile = () => {
           >
             Your Profile
           </Text>
+
+          <Progress value={50} shadow color="primary" status="primary" />
+          <Progress value={30} shadow color="secondary" status="secondary" />
+          <Progress value={70} shadow color="success" status="success" />
+          <Progress value={90} shadow color="warning" status="warning" />
+          <Progress value={10} shadow color="error" status="error" />
         </Grid>
       </Grid.Container>
 
