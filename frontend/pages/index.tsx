@@ -5,7 +5,6 @@ import { Layout } from '../components/Layout';
 
 const Home: NextPage = () => {
   return (
-
     <Layout>
       <Navbar isBordered variant="floating">
         <Navbar.Brand>
@@ -13,9 +12,8 @@ const Home: NextPage = () => {
             🇨🇭 Swiss <strong>DAO</strong> 🏔️
           </Text>
         </Navbar.Brand>
-        <Navbar.Content hideIn="xs">
-          <Navbar.Link href="#">Features</Navbar.Link>
-          <Navbar.Link href="#">Community</Navbar.Link>
+        <Navbar.Content>
+          <Navbar.Link href="#">Profile</Navbar.Link>
           <Navbar.Link href="#">Events</Navbar.Link>
         </Navbar.Content>
         <Navbar.Content>
