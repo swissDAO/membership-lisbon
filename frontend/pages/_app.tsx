@@ -6,13 +6,13 @@ import type { AppProps } from 'next/app'
 import { chain, configureChains, createClient, WagmiConfig } from 'wagmi'
 import '../styles/globals.scss'
 
+import { infuraProvider } from 'wagmi/providers/infura'
 import { publicProvider } from 'wagmi/providers/public'
+import { Layout } from '../components/Layout'
 
 const { chains, provider } = configureChains(
-  [chain.mainnet, chain.goerli, chain.rinkeby, chain.polygon, chain.polygonMumbai, chain.optimism, chain.arbitrum],
-  [
-    publicProvider()
-  ]
+  [chain.mainnet, chain.goerli],
+  [infuraProvider({ apiKey: process.env.INFURA_API_KEY }), publicProvider()]
 );
 
 const { connectors } = getDefaultWallets({
@@ -61,7 +61,9 @@ function MyApp({ Component, pageProps }: AppProps) {
             }}
             modalSize={'compact'}
             coolMode>
-            <Component {...pageProps} />
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
           </RainbowKitProvider>
         </WagmiConfig>
       </NextUIProvider>

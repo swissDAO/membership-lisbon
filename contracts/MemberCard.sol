@@ -31,14 +31,15 @@ contract MemberCard is
     }
 
     function updateSkills() {
-      ERC721 _memberCard = ERC721()
+        ERC721 _memberCard = ERC721();
     }
 
     function earnExperience() {
-      ERC721 _memberCard = ERC721()
+        ERC721 _memberCard = ERC721();
     }
 
     function getTokenURI() private view override returns (string memory) {
-      return "https://gateway.pinata.cloud/ipfs/QmRj91zjBaMjUHtxJnGh32UvM6Wtd4fXNXt8czABLuuCsE"
+        return
+            "https://gateway.pinata.cloud/ipfs/QmRj91zjBaMjUHtxJnGh32UvM6Wtd4fXNXt8czABLuuCsE";
     }
 }
