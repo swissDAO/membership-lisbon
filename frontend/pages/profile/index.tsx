@@ -1,4 +1,4 @@
-import { Grid, Button, Text, Progress } from "@nextui-org/react";
+import { Grid, Button, Text, Progress, Spacer } from "@nextui-org/react";
 import Spline from "@splinetool/react-spline";
 import { useAccount } from "wagmi";
 
@@ -39,6 +39,22 @@ export const Profile = () => {
             Membership Progress (35 / 100)
           </Text>
           <Progress color="primary" value={35} />
+        </Grid>
+      </Grid.Container>
+
+      <Spacer y={2} />
+
+      <Grid.Container direction="row">
+        <Grid>
+          <Text
+            h2
+            css={{
+              textGradient: "90deg, #E31D1C -20%, #FF0080",
+            }}
+            weight="bold"
+          >
+            Your Membercard
+          </Text>
         </Grid>
       </Grid.Container>
 

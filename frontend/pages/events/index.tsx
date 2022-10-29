@@ -3,7 +3,7 @@ import { loadGetInitialProps } from "next/dist/shared/lib/utils";
 import { useState } from "react";
 import QRCode from "react-qr-code";
 import { useAccount } from "wagmi";
-import { MULTI_SIGNATURE, MY_ACCOUNT } from "../../constants/constants";
+import { MULTI_SIGNATURE, OWNER } from "../../constants/constants";
 
 type Mode = 'detail' | 'create' | 'edit';
 
@@ -79,7 +79,7 @@ export default function Events() {
   const renderButtons = () => {
     return (
       <>
-        {address === MY_ACCOUNT && (
+        {(address === OWNER || address === MULTI_SIGNATURE) && (
           <Button
             auto
             ghost
@@ -138,7 +138,6 @@ export default function Events() {
                   <Text css={{ color: "$accents7", fontWeight: "$semibold", fontSize: "$sm" }}>
                     {item.date}
                   </Text>
-
                 </Row>
               </Card.Footer>
             </Card>
@@ -174,10 +173,8 @@ export default function Events() {
             color="primary"
             size="lg"
             placeholder="Title"
-            disabled={mode === 'detail'}
           />
 
-          {mode !== 'create' && renderButtons()}
         </Modal.Body>
         <Modal.Footer>
           <Button auto flat color="error" onClick={onClose}>
@@ -188,6 +185,7 @@ export default function Events() {
               {mode === 'create' ? 'Create' : 'Edit'}
             </Button>
           )}
+          {mode !== 'create' && renderButtons()}
         </Modal.Footer>
       </Modal>
 

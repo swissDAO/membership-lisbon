@@ -9,8 +9,12 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
 // Interfaces
 import "./interfaces/IMemberCard.sol";
 
-contract MemberCard is IMemberCard, ERC721URIStorage, ERC721Enumerable, ERC721Burnable {
-    
+contract MemberCard is
+    IMemberCard,
+    ERC721URIStorage,
+    ERC721Enumerable,
+    ERC721Burnable
+{
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
 
@@ -26,17 +30,22 @@ contract MemberCard is IMemberCard, ERC721URIStorage, ERC721Enumerable, ERC721Bu
         _tokenIds.increment();
     }
 
-    function _beforeTokenTransfer(address from, address to, uint256 amount) internal override(ERC721, ERC721Enumerable) {
-      ERC721._beforeTokenTransfer(from, to, amount);
+    function _beforeTokenTransfer(
+        address from,
+        address to,
+        uint256 amount
+    ) internal override(ERC721, ERC721Enumerable) {
+        ERC721._beforeTokenTransfer(from, to, amount);
     }
 
-    function _burn(uint256 tokenId) internal override(ERC721, ERC721URIStorage) {
-      ERC721._burn(tokenId);
+    function _burn(uint256 tokenId)
+        internal
+        override(ERC721, ERC721URIStorage)
+    {
+        ERC721._burn(tokenId);
     }
 
-    function tokenUri() external override(ERC721Enumerable) {
-
-    }
+    function tokenUri() external override(ERC721Enumerable) {}
 
     function updateSkills() {
         ERC721 _memberCard = ERC721();
