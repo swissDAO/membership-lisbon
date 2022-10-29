@@ -165,7 +165,7 @@ export default function Events() {
             color="primary"
             size="lg"
             placeholder="Title"
-            disabled={mode !== 'edit'}
+            disabled={mode === 'detail'}
           />
 
           {renderButtons()}
