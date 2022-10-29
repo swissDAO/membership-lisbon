@@ -20,7 +20,7 @@ contract MemberCard is
 
     constructor() ERC721("MemberCard", "SWSS") {}
 
-    function mintMemberCard() override {
+    function mintMemberCard() public {
         uint256 newItemId = _tokenIds.current();
 
         _safeMint(msg.sender, newItemId);
