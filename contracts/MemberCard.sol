@@ -5,12 +5,14 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
+import "@openzeppelin/contracts/access/AccessControl.sol";
 
 // Interfaces
 import "./interfaces/IMemberCard.sol";
 
 contract MemberCard is
     IMemberCard,
+    AccessControl,
     ERC721URIStorage,
     ERC721Enumerable,
     ERC721Burnable
@@ -31,9 +33,15 @@ contract MemberCard is
 
     Counters.Counter private _tokenIds;
 
-    constructor() ERC721("MemberCard", "SWSS") {}
+    address public DISPATCHER_ADDRESS;
+
+    constructor(address _dispatcher) ERC721("MemberCard", "SWSS") {
+        _grantRole(DEFAULT_ADMIN_ROLE, _dispatcher);
+    }
 
     function mintMemberCard() public {
+        require(hasRole(DEFAULT_ADMIN_ROLE, msg.sender), "NOT_DISPATCHER");
+
         uint256 newItemId = _tokenIds.current();
 
         _safeMint(msg.sender, newItemId);
@@ -49,9 +57,7 @@ contract MemberCard is
         address from,
         address to,
         uint256 amount
-    ) internal override(ERC721, ERC721Enumerable) {
-        ERC721._beforeTokenTransfer(from, to, amount);
-    }
+    ) internal override(ERC721, ERC721Enumerable) {}
 
     function _burn(uint256 tokenId)
         internal
@@ -76,17 +82,17 @@ contract MemberCard is
         public
         view
         virtual
-        override(ERC721, ERC721Enumerable)
+        override(ERC721, ERC721Enumerable, AccessControl)
         returns (bool)
     {
         return super.supportsInterface(interfaceId);
     }
 
-    function updateSkills() public {
-        ERC721 _memberCard = ERC721();
-    }
+    // function updateSkills() public {
+    //     ERC721 _memberCard = ERC721();
+    // }
 
-    function earnExperience() public {
-        ERC721 _memberCard = ERC721();
-    }
+    // function earnExperience() public {
+    //     ERC721 _memberCard = ERC721();
+    // }
 }
