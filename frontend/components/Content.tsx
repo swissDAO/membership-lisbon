@@ -7,17 +7,17 @@ export const Content = () => {
     {
       title: "³ web3 spaces",
       subtitle: "W/ Meetups, Workshops and Hackerhouses in real life",
-      image: "https://nextui.org/images/card-example-4.jpeg",
+      image: "https://nextui.org/images/card-example-1.jpeg",
     },
     {
       title: "³ Community spirit",
       subtitle: "Connect, Learn and Build",
-      image: "https://nextui.org/images/card-example-4.jpeg",
+      image: "https://nextui.org/images/card-example-2.jpeg",
     },
     {
       title: "³ Just do Web3",
       subtitle: "Take Ownership. LFG 🚀",
-      image: "https://nextui.org/images/card-example-4.jpeg",
+      image: "https://nextui.org/images/card-example-3.jpeg",
     },
     {
       title: "³ web3 spaces",
@@ -28,7 +28,7 @@ export const Content = () => {
     {
       title: "³ web3 spaces",
       subtitle: "³ web3 spaces",
-      image: "https://nextui.org/images/card-example-4.jpeg",
+      image: "https://nextui.org/images/card-example-5.jpeg",
       sm: 7
     },
   ]

@@ -43,7 +43,6 @@ export default function Events() {
   const createEvent = () => {
     setMode('create');
     setVisible(true);
-    console.log('createEvent');
   }
 
   const editEvent = () => {
@@ -54,16 +53,26 @@ export default function Events() {
 
   const onClose = () => setVisible(false);
 
-  console.log(address);
+  const downloadTxtFile = (content: string[]) => {
+    const element = document.createElement("a");
+    const file = new Blob(content, {
+      type: "text/plain"
+    });
+    element.href = URL.createObjectURL(file);
+    element.download = "myFile.txt";
+    document.body.appendChild(element);
+    element.click();
+  };
+
 
 
   const submit = () => {
     if (mode === 'edit') {
-
     }
 
     if (mode === 'create') {
-
+      const secrets = new Array(100).fill(null).map((_, i) => Array.from(Array(32), () => Math.floor(Math.random() * 36).toString(36)).join(''));
+      downloadTxtFile(secrets);
     }
   }
 
@@ -168,7 +177,7 @@ export default function Events() {
             disabled={mode === 'detail'}
           />
 
-          {renderButtons()}
+          {mode !== 'create' && renderButtons()}
         </Modal.Body>
         <Modal.Footer>
           <Button auto flat color="error" onClick={onClose}>
