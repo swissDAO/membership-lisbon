@@ -18,12 +18,27 @@ export const Profile = () => {
           >
             Your Profile
           </Text>
+        </Grid>
+      </Grid.Container>
 
-          <Progress value={50} shadow color="primary" status="primary" />
-          <Progress value={30} shadow color="secondary" status="secondary" />
-          <Progress value={70} shadow color="success" status="success" />
-          <Progress value={90} shadow color="warning" status="warning" />
-          <Progress value={10} shadow color="error" status="error" />
+      <Grid.Container xs={12} sm={6} gap={2}>
+        <Grid>
+          <Text h4>
+            Experience Points (75 / 100)
+          </Text>
+          <Progress color="primary" value={75} />
+        </Grid>
+        <Grid>
+          <Text h4>
+            Skills Points (55 / 100)
+          </Text>
+          <Progress color="primary" value={55} />
+        </Grid>
+        <Grid>
+          <Text h4>
+            Membership Progress (35 / 100)
+          </Text>
+          <Progress color="primary" value={35} />
         </Grid>
       </Grid.Container>
 

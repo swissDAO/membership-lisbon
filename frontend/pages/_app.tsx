@@ -9,6 +9,7 @@ import '../styles/globals.scss'
 import { infuraProvider } from 'wagmi/providers/infura'
 import { publicProvider } from 'wagmi/providers/public'
 import { Layout } from '../components/Layout'
+import Image from 'next/image'
 
 const { chains, provider } = configureChains(
   [chain.mainnet, chain.goerli],
@@ -39,6 +40,17 @@ const Disclaimer: DisclaimerComponent = ({ Text, Link }) => (
   </Text>
 );
 
+const CustomAvatar = ({ size }: any) => {
+  return (
+    <Image
+      alt=""
+      src="/apple-touch-icon.png"
+      height={size}
+      width={size}
+    />
+  );
+};
+
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <NextThemesProvider
@@ -60,6 +72,7 @@ function MyApp({ Component, pageProps }: AppProps) {
               disclaimer: Disclaimer,
             }}
             modalSize={'compact'}
+            avatar={CustomAvatar}
             coolMode>
             <Layout>
               <Component {...pageProps} />
