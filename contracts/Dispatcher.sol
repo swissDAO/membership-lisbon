@@ -2,6 +2,7 @@
 pragma solidity ^0.8.16;
 
 import "./interfaces/IDispatcher.sol";
+import "./MemberCard.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 
