@@ -9,6 +9,9 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "hardhat/console.sol";
 
 contract Dispatcher is IDispatcher, Ownable {
+
+    MemberCard memberCard;
+
     struct Member {
         address member;
         uint256 tokenId;
@@ -37,6 +40,10 @@ contract Dispatcher is IDispatcher, Ownable {
     event EventCreated(address indexed _owner, uint256 _id, string _title, uint256 _timestampOfEvent);
 
     constructor() {}
+
+    function createMemberCard() public onlyOwner {
+        memberCard = new MemberCard(address(this));
+    }
 
     function createEvent(
         string memory _title,
@@ -102,7 +109,7 @@ contract Dispatcher is IDispatcher, Ownable {
         uint256 _eventID,
         address _attendee,
         bytes32 _secret
-    ) public {
+    ) external {
         // require certain token for this to work, token receiving via qr code scanning
         bool validSecretDetected;
 
@@ -131,6 +138,10 @@ contract Dispatcher is IDispatcher, Ownable {
             // already member => just upgrade
         } else {
             // no member yet => mint membership NFT with initial xp points
+            memberCount++;
+            uint256 id = memberCard.mintMemberCard();
+            addressIsMember[msg.sender] = true;
+            addressToMember[msg.sender] = Member({member: msg.sender, tokenId: id});
         }
     }
 

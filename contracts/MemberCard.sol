@@ -39,7 +39,7 @@ contract MemberCard is
         _grantRole(DEFAULT_ADMIN_ROLE, _dispatcher);
     }
 
-    function mintMemberCard() public {
+    function mintMemberCard() public returns (uint256) {
         require(hasRole(DEFAULT_ADMIN_ROLE, msg.sender), "NOT_DISPATCHER");
 
         uint256 newItemId = _tokenIds.current();
@@ -51,6 +51,8 @@ contract MemberCard is
         memberToTokenIdToTIER[msg.sender][newItemId] = TIERS.BRONZE;
 
         _tokenIds.increment();
+
+        return newItemId;
     }
 
     function _beforeTokenTransfer(
