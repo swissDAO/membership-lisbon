@@ -12,7 +12,7 @@ import { Layout } from '../components/Layout'
 import Image from 'next/image'
 
 const { chains, provider } = configureChains(
-  [chain.mainnet, chain.goerli],
+  [chain.goerli],
   [infuraProvider({ apiKey: process.env.INFURA_API_KEY }), publicProvider()]
 );
 

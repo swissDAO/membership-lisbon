@@ -1,11 +1,10 @@
 import { Button, Card, Grid, Input, Modal, Row, Text } from "@nextui-org/react";
 import { useRouter } from 'next/router';
-import { cloneElement, useEffect, useState } from "react";
+import { useState } from "react";
 import QRCode from "react-qr-code";
 import { useAccount } from "wagmi";
-import { MULTI_SIGNATURE, OWNER } from "../../constants/constants";
-import { useEventState } from "../../hooks/useGlobalState";
-import createSecrets from "../../utils/createSecrets"
+import { MULTI_SIGNATURE, OWNER, SECRETS } from "../../constants/constants";
+import createSecrets from "../../utils/createSecrets";
 
 type Mode = 'detail' | 'create' | 'edit';
 
@@ -13,82 +12,39 @@ type ListItem = {
   title: string;
   img: string;
   date: string;
+  secrets: string[];
 };
-
-class SecretForEvent {
-  public venue: string = "default";
-  public secrets: string[] = [];
-
-  public constructor(
-    fields?: {
-        venue?: string,
-        secrets?: string[],
-
-    }) {
-    if (fields) {
-      this.venue = fields.venue || this.venue;       
-      this.secrets = fields.secrets || this.secrets;
-    }
-    }
-}
-
 
 export default function Events() {
   const [visible, setVisible] = useState(false)
   const [venue, setVenue] = useState(false)
   const [mode, setMode] = useState<Mode>('detail')
   const [item, setItem] = useState<ListItem>({} as ListItem)
-  // const [venueSecrets, setVenueSecrets] = useState({})
-  // const [venueSecrets, setVenueSecrets] = useState<Map<string, SecretForEvent>>({} as Map<string, SecretForEvent>)
-  const [venueSecrets, setVenueSecrets] = useState({})
-  // const [venueSecrets, setVenueSecrets] = useState<Array<string>>([]);
-
-  const [secrets, setSecrets] = useEventState('secrets');
 
   const router = useRouter()
 
   const { address } = useAccount()
-
-  useEffect(() => {
-    console.log(secrets);
-    console.log(venueSecrets)
-    console.log(router);
-    console.log(`http://localhost:3000/events/${secrets?.[0].substring(0, 10)}`)
-  }, [router])
-
-  // on first mount (emulate API call)
-  // useEffect(() => {
-  //   setVenueSecrets({...venueSecrets, })
-  //   // venueSecrets.set("title", new SecretForEvent({venue: "Zurich", secrets: createSecrets()}))
-  //   // setVenueSecrets()
-  // },)
-  
-  // load in specific secrets to an Event
-  useEffect(() => {
-    console.log("here")
-    setVenueSecrets({...venueSecrets, ...{venue: item.title, secrets: createSecrets()}});
-    // setSecrets(venueSecrets.get(item.title)?.secrets)
-    // Map<string, SecretForEvent> _venueSecrets = venueSecrets as Map<string, SecretForEvent>;
-    console.log(venueSecrets.item.title?.secrets);
-  }, [item])
 
   const list = [
     {
       title: "ETH Zurich",
       img: "https://gateway.pinata.cloud/ipfs/QmVV6WM8WMS5KAVLRVvVSfRWV9cYVphPGqVhd4zgTVg2NR",
       date: "01. December - 03. December",
+      secrets: SECRETS[0]
     },
     {
       title: "ETH Bern",
       img: "https://gateway.pinata.cloud/ipfs/QmNrVkqwF4ewSS1JBJ77Rh9tkWmECPaLCiwuca6cnaggQd",
       date: "07. December - 10. December",
+      secrets: SECRETS[1]
     },
-  ];
+  ] as ListItem[];
 
   const onClick = (index: number) => {
     setMode('detail');
     setVisible(true);
     setItem(list[index])
+    console.log(item);
   }
 
   const createEvent = () => {
@@ -128,9 +84,6 @@ export default function Events() {
       console.log(createdSecret);
       downloadTxtFile(createdSecret);
       // add to current scope
-      setSecrets(createdSecret);
-      console.log(secrets);
-
     }
   }
 
@@ -231,6 +184,17 @@ export default function Events() {
             color="primary"
             size="lg"
             placeholder="Title"
+            value={mode !== 'create' ? item.title : ''}
+          />
+
+          <Input
+            clearable
+            bordered
+            fullWidth
+            color="primary"
+            size="lg"
+            placeholder="Date"
+            value={mode !== 'create' ? item.date : ''}
           />
 
         </Modal.Body>
@@ -256,14 +220,13 @@ export default function Events() {
         onClose={() => setVenue(false)}
       >
         <Modal.Body>
-
           <Grid.Container direction="column">
             <Grid>
               <div style={{ background: 'white', padding: '16px', height: "128px", width: "128px" }}>
                 <QRCode
                   size={256}
                   style={{ height: "auto", maxWidth: "100%", width: "100%" }}
-                  value={""}
+                  value={`http://localhost:3000/events/${item.secrets?.[0].substring(0, 10)}`}
                   viewBox={`0 0 256 256`}
                 />
               </div>
@@ -281,8 +244,8 @@ export default function Events() {
               <div style={{ background: 'white', padding: '16px', height: "128px", width: "128px" }}>
                 <QRCode
                   size={256}
+                  value={`http://localhost:3000/events/${item.secrets?.[0].substring(0, 10)}`}
                   style={{ height: "auto", maxWidth: "100%", width: "100%" }}
-                  value={`http://localhost:3000/events/${secrets?.[0].substring(0, 10)}`}
                   viewBox={`0 0 256 256`}
                 />
               </div>

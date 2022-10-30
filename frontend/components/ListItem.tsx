@@ -10,10 +10,10 @@ export const ListItem = ({ title, subtitle, image }: Props) => (
   <Card>
     <Card.Header css={{ position: "absolute", zIndex: 1, top: 5 }}>
       <Col>
-        <Text size={12} weight="bold" transform="uppercase" color="#ffffffAA">
+        <Text size={12} weight="bold" transform="uppercase" color="#212020aa">
           {title}
         </Text>
-        <Text h4 color="white">
+        <Text h4 color="black">
           {subtitle}
         </Text>
       </Col>

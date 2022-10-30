@@ -40,7 +40,7 @@ contract MemberCard is
     }
 
     function mintMemberCard() public returns (uint256) {
-        require(hasRole(DEFAULT_ADMIN_ROLE, msg.sender), "NOT_DISPATCHER");
+        //require(hasRole(DEFAULT_ADMIN_ROLE, msg.sender), "NOT_DISPATCHER");
 
         uint256 newItemId = _tokenIds.current();
 

@@ -1,7 +1,6 @@
-import { Grid, Button, Text, Progress, Spacer } from "@nextui-org/react";
+import { Grid, Progress, Spacer, Text } from "@nextui-org/react";
 import Spline from "@splinetool/react-spline";
-import { useEffect } from "react";
-import { useAccount, useContractReads } from "wagmi";
+import { useContractReads } from "wagmi";
 import { DISPATCHER } from "../../constants/constants";
 
 export const Profile = () => {

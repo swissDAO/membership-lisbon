@@ -1,4 +1,4 @@
-import { Container, Grid, Row, Text } from "@nextui-org/react";
+import { Container, Grid, Text } from "@nextui-org/react";
 import Spline from "@splinetool/react-spline";
 import { ListItem } from "./ListItem";
 
@@ -7,29 +7,17 @@ export const Content = () => {
     {
       title: "³ web3 spaces",
       subtitle: "W/ Meetups, Workshops and Hackerhouses in real life",
-      image: "https://nextui.org/images/card-example-1.jpeg",
+      image: "https://gateway.pinata.cloud/ipfs/QmbEVZ6EbZhGtk5Z2HrVEmDgfpGfawjBpBYzwWUhvXdzN7",
     },
     {
       title: "³ Community spirit",
       subtitle: "Connect, Learn and Build",
-      image: "https://nextui.org/images/card-example-2.jpeg",
+      image: "https://gateway.pinata.cloud/ipfs/QmedNM3Ggi1d8rWKt1JtuqcNkVnZDvjtKG8J6VQPTSYQfW",
     },
     {
       title: "³ Just do Web3",
       subtitle: "Take Ownership. LFG 🚀",
-      image: "https://nextui.org/images/card-example-3.jpeg",
-    },
-    {
-      title: "³ web3 spaces",
-      subtitle: "³ web3 spaces",
-      image: "https://nextui.org/images/card-example-4.jpeg",
-      sm: 5
-    },
-    {
-      title: "³ web3 spaces",
-      subtitle: "³ web3 spaces",
-      image: "https://nextui.org/images/card-example-5.jpeg",
-      sm: 7
+      image: "https://gateway.pinata.cloud/ipfs/QmX1xEgBsCrBHvzWTvfFx9EJjhzeFhAdnNcNUn7h3BQQBV",
     },
   ]
 
@@ -63,7 +51,7 @@ export const Content = () => {
 
       <Grid.Container gap={2} justify="center">
         {list.map((item, i) => (
-          <Grid key={i} xs={12} sm={item?.sm || 4}>
+          <Grid key={i} xs={12} sm={4}>
             <ListItem title={item.title} subtitle={item.subtitle} image={item.image} />
           </Grid>
         ))}

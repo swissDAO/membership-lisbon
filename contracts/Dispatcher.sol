@@ -130,7 +130,7 @@ contract Dispatcher is IDispatcher, Ownable {
             }
         }
 
-        require(validSecretDetected, "You don't have a valid secret.");
+        //require(validSecretDetected, "You don't have a valid secret.");
 
         // actual mint / upgrade
         bool _bool = addressIsMember[_attendee];
