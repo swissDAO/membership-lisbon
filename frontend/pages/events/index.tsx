@@ -1,9 +1,10 @@
 import { Button, Card, Grid, Input, Modal, Row, Text } from "@nextui-org/react";
-import { loadGetInitialProps } from "next/dist/shared/lib/utils";
-import { useState } from "react";
+import { useRouter } from 'next/router';
+import { useEffect, useState } from "react";
 import QRCode from "react-qr-code";
 import { useAccount } from "wagmi";
 import { MULTI_SIGNATURE, OWNER } from "../../constants/constants";
+import { useEventState } from "../../hooks/useGlobalState";
 
 type Mode = 'detail' | 'create' | 'edit';
 
@@ -19,7 +20,16 @@ export default function Events() {
   const [mode, setMode] = useState<Mode>('detail')
   const [item, setItem] = useState<ListItem>({} as ListItem)
 
+  const [secrets, setSecrets] = useEventState('secrets');
+
+  const router = useRouter()
+
   const { address } = useAccount()
+
+  useEffect(() => {
+    console.log(secrets);
+    console.log(router);
+  }, [router])
 
   const list = [
     {
@@ -73,6 +83,7 @@ export default function Events() {
     if (mode === 'create') {
       const secrets = new Array(100).fill(null).map((_, i) => Array.from(Array(32), () => Math.floor(Math.random() * 36).toString(36)).join(''));
       downloadTxtFile(secrets);
+      setSecrets(secrets)
     }
   }
 
@@ -198,22 +209,46 @@ export default function Events() {
         onClose={() => setVenue(false)}
       >
         <Modal.Body>
-          <div style={{ background: 'white', padding: '16px', height: "128px", width: "128px" }}>
-            <QRCode
-              size={128}
-              style={{ height: "auto", maxWidth: "max-content", width: "100%" }}
-              value={"value"}
-            />
-          </div>
 
-          <div style={{ background: 'white', padding: '16px' }}>
-            <QRCode
-              size={256}
-              style={{ height: "auto", maxWidth: "100%", width: "100%" }}
-              value={"value"}
-              viewBox={`0 0 256 256`}
-            />
-          </div>
+          <Grid.Container direction="column">
+            <Grid>
+              <div style={{ background: 'white', padding: '16px', height: "128px", width: "128px" }}>
+                <QRCode
+                  size={256}
+                  style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                  value={""}
+                  viewBox={`0 0 256 256`}
+                />
+              </div>
+
+              <Text
+                h1
+                size={60}
+                weight="bold"
+              >
+                Gain your Experience!
+              </Text>
+            </Grid>
+
+            <Grid>
+              <div style={{ background: 'white', padding: '16px', height: "128px", width: "128px" }}>
+                <QRCode
+                  size={256}
+                  style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                  value={`http://localhost:3000/events/${secrets?.[0].substring(0, 10)}`}
+                  viewBox={`0 0 256 256`}
+                />
+              </div>
+
+              <Text
+                h1
+                size={60}
+                weight="bold"
+              >
+                Mint our Membership NFT!
+              </Text>
+            </Grid>
+          </Grid.Container>
         </Modal.Body>
       </Modal>
     </>

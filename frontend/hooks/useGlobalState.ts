@@ -12,4 +12,4 @@ const initialEventConfig: EventsConfig = {
 
 export const eventState = createGlobalState(initialEventConfig);
 
-export const useModalState = eventState.useGlobalState;
+export const useEventState = eventState.useGlobalState;
