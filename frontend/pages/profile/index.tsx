@@ -1,9 +1,25 @@
 import { Grid, Button, Text, Progress, Spacer } from "@nextui-org/react";
 import Spline from "@splinetool/react-spline";
-import { useAccount } from "wagmi";
+import { useEffect } from "react";
+import { useAccount, useContractReads } from "wagmi";
+import { DISPATCHER } from "../../constants/constants";
 
 export const Profile = () => {
-  const { address } = useAccount()
+
+  const { data, isError, isLoading } = useContractReads({
+    contracts: [
+      {
+        ...DISPATCHER,
+        functionName: 'owner',
+        watch: true
+      } as any,
+    ],
+  })
+
+  console.log(data);
+  console.log(isError);
+  console.log(isLoading);
+
 
   return (
     <>
@@ -30,15 +46,9 @@ export const Profile = () => {
         </Grid>
         <Grid>
           <Text h4>
-            Skills Points (55 / 100)
+            Attended Events
           </Text>
           <Progress color="primary" value={55} />
-        </Grid>
-        <Grid>
-          <Text h4>
-            Membership Progress (35 / 100)
-          </Text>
-          <Progress color="primary" value={35} />
         </Grid>
       </Grid.Container>
 
@@ -54,6 +64,14 @@ export const Profile = () => {
             weight="bold"
           >
             Your Membercard
+          </Text>
+        </Grid>
+      </Grid.Container>
+
+      <Grid.Container xs={12} sm={6} gap={2}>
+        <Grid>
+          <Text h4>
+            Membercard Tier 🥉
           </Text>
         </Grid>
       </Grid.Container>

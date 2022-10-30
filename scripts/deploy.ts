@@ -6,7 +6,12 @@ async function main() {
 
   await dispatcher.deployed();
 
-  console.log("Deployed Contract:", dispatcher.address);
+  const MemberCard = await ethers.getContractFactory("MemberCard");
+  const memberCard = await MemberCard.deploy(dispatcher.address);
+  await memberCard.deployed();
+
+  console.log("Deployed Dispatcher Contract:", dispatcher.address);
+  console.log("Deployed MemberCard Contract:", memberCard.address);
 }
 
 // We recommend this pattern to be able to use async/await everywhere
