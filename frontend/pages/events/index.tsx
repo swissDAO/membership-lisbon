@@ -1,10 +1,11 @@
 import { Button, Card, Grid, Input, Modal, Row, Text } from "@nextui-org/react";
 import { useRouter } from 'next/router';
-import { useEffect, useState } from "react";
+import { cloneElement, useEffect, useState } from "react";
 import QRCode from "react-qr-code";
 import { useAccount } from "wagmi";
 import { MULTI_SIGNATURE, OWNER } from "../../constants/constants";
 import { useEventState } from "../../hooks/useGlobalState";
+import createSecrets from "../../utils/createSecrets"
 
 type Mode = 'detail' | 'create' | 'edit';
 
@@ -14,11 +15,33 @@ type ListItem = {
   date: string;
 };
 
+class SecretForEvent {
+  public venue: string = "default";
+  public secrets: string[] = [];
+
+  public constructor(
+    fields?: {
+        venue?: string,
+        secrets?: string[],
+
+    }) {
+    if (fields) {
+      this.venue = fields.venue || this.venue;       
+      this.secrets = fields.secrets || this.secrets;
+    }
+    }
+}
+
+
 export default function Events() {
   const [visible, setVisible] = useState(false)
   const [venue, setVenue] = useState(false)
   const [mode, setMode] = useState<Mode>('detail')
   const [item, setItem] = useState<ListItem>({} as ListItem)
+  // const [venueSecrets, setVenueSecrets] = useState({})
+  // const [venueSecrets, setVenueSecrets] = useState<Map<string, SecretForEvent>>({} as Map<string, SecretForEvent>)
+  const [venueSecrets, setVenueSecrets] = useState({})
+  // const [venueSecrets, setVenueSecrets] = useState<Array<string>>([]);
 
   const [secrets, setSecrets] = useEventState('secrets');
 
@@ -28,8 +51,26 @@ export default function Events() {
 
   useEffect(() => {
     console.log(secrets);
+    console.log(venueSecrets)
     console.log(router);
+    console.log(`http://localhost:3000/events/${secrets?.[0].substring(0, 10)}`)
   }, [router])
+
+  // on first mount (emulate API call)
+  // useEffect(() => {
+  //   setVenueSecrets({...venueSecrets, })
+  //   // venueSecrets.set("title", new SecretForEvent({venue: "Zurich", secrets: createSecrets()}))
+  //   // setVenueSecrets()
+  // },)
+  
+  // load in specific secrets to an Event
+  useEffect(() => {
+    console.log("here")
+    setVenueSecrets({...venueSecrets, ...{venue: item.title, secrets: createSecrets()}});
+    // setSecrets(venueSecrets.get(item.title)?.secrets)
+    // Map<string, SecretForEvent> _venueSecrets = venueSecrets as Map<string, SecretForEvent>;
+    console.log(venueSecrets.item.title?.secrets);
+  }, [item])
 
   const list = [
     {
@@ -81,9 +122,15 @@ export default function Events() {
     }
 
     if (mode === 'create') {
-      const secrets = new Array(100).fill(null).map((_, i) => Array.from(Array(32), () => Math.floor(Math.random() * 36).toString(36)).join(''));
-      downloadTxtFile(secrets);
-      setSecrets(secrets)
+      const createdSecret = createSecrets();
+      // add to map
+      // implement
+      console.log(createdSecret);
+      downloadTxtFile(createdSecret);
+      // add to current scope
+      setSecrets(createdSecret);
+      console.log(secrets);
+
     }
   }
 
