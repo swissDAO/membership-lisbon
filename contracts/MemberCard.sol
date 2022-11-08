@@ -26,7 +26,22 @@ contract MemberCard is
         PLATINUM
     }
 
+    struct Skills {
+        string name;
+    }
+
+    struct Attributes {
+        address holder;
+        string name;
+        uint256 mintDate;
+        uint256 lastModified;
+        Skills[] skills;
+        TIERS tier;
+    }
+
     mapping(address => mapping(uint256 => TIERS)) memberToTokenIdToTIER;
+
+    mapping(address => Attributes) public holdersAttributes;
 
     uint256 experiencePointsOverall;
     uint256 numberOfAttendedEvents;
@@ -35,7 +50,22 @@ contract MemberCard is
 
     address public DISPATCHER_ADDRESS;
 
-    constructor(address _dispatcher) ERC721("MemberCard", "SWSS") {
+    constructor(address _dispatcher, string memory _name)
+        ERC721("MemberCard", "SWSS")
+    {
+        Skills[] memory initalSkills;
+
+        Attributes memory _holdersAttributes = Attributes(
+            msg.sender,
+            _name,
+            block.timestamp,
+            block.timestamp,
+            initalSkills,
+            TIERS.BRONZE
+        );
+
+        holdersAttributes[msg.sender] = _holdersAttributes;
+
         _grantRole(DEFAULT_ADMIN_ROLE, _dispatcher);
     }
 
